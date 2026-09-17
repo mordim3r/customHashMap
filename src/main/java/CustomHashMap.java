@@ -1,15 +1,15 @@
-public class CustomHashMap <K,V> {
+public class CustomHashMap<K, V> {
     int capacity = 16;
-    Node <K,V>[] table;
+    Node<K, V>[] table;
 
     public CustomHashMap() {
         table = new Node[capacity];
     }
 
-    public static class Node<K,V>{
+    public static class Node<K, V> {
         K key;
         V value;
-        Node <K,V> next;
+        Node<K, V> next;
 
         public Node(K key, V value, Node<K, V> next) {
             this.key = key;
@@ -17,31 +17,33 @@ public class CustomHashMap <K,V> {
             this.next = next;
         }
     }
-    private int index(K key){
+
+    private int index(K key) {
         int hash;
-        if(key==null){
+        if (key == null) {
             hash = 0;
         } else {
-            hash=Math.abs(key.hashCode());
+            hash = Math.abs(key.hashCode());
         }
-        return hash%capacity;
+        return hash % capacity;
     }
-    public V put(K key, V value){
+
+    public V put(K key, V value) {
         int i = index(key);
-        if (table[i]==null){
-            Node<K,V> node = new Node<>(key,value, null);
-            table[i]=node;
+        if (table[i] == null) {
+            Node<K, V> node = new Node<>(key, value, null);
+            table[i] = node;
             return null;
         } else {
-            Node<K,V>current =table[i];
-            while (current!=null){
+            Node<K, V> current = table[i];
+            while (current != null) {
                 boolean sameKey;
-                if (key==null){
-                    sameKey =  (current.key==null);
-                }else {
-                   sameKey = key.equals(current.key);
+                if (key == null) {
+                    sameKey = (current.key == null);
+                } else {
+                    sameKey = key.equals(current.key);
                 }
-                if (sameKey){
+                if (sameKey) {
                     V oldValue = current.value;
                     current.value = value;
                     return oldValue;
@@ -49,10 +51,30 @@ public class CustomHashMap <K,V> {
                     current = current.next;
                 }
             }
-            Node<K,V>newNode = new Node<>(key,value,table[i]);
-            table[i]=newNode;
+            Node<K, V> newNode = new Node<>(key, value, table[i]);
+            table[i] = newNode;
             return null;
         }
+    }
 
+    public V get(K key) {
+        int i = index(key);
+        Node<K, V> current = table[i];
+        while (current != null) {
+            boolean sameKey;
+            if (key == null) {
+                sameKey = (current.key == null);
+            } else {
+                sameKey = key.equals(current.key);
+            }
+            if (sameKey) {
+                return current.value;
+            } else {
+                current = current.next;
+
+            }
+
+        }
+        return null;
     }
 }
