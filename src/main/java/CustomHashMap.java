@@ -1,3 +1,6 @@
+import java.security.Key;
+
+
 public class CustomHashMap<K, V> {
     int capacity = 16;
     Node<K, V>[] table;
@@ -71,7 +74,33 @@ public class CustomHashMap<K, V> {
                 return current.value;
             } else {
                 current = current.next;
+            }
+        }
+        return null;
+    }
 
+    public V remove(K key) {
+        int i = index(key);
+        Node<K, V> current = table[i];
+        Node<K, V> prev = null;
+        while (current != null) {
+            boolean sameKey;
+            if (key == null) {
+                sameKey = (current.key == null);
+            } else {
+                sameKey = key.equals(current.key);
+            }
+            if (sameKey) {
+                V oldValue = current.value;
+                if (prev == null) {
+                    table[i] = current.next;
+                } else {
+                    prev.next = current.next;
+                }
+                return oldValue;
+            } else {
+                prev = current;
+                current = current.next;
             }
 
         }
