@@ -1,9 +1,8 @@
-import java.security.Key;
-
 
 public class CustomHashMap<K, V> {
     int capacity = 16;
     Node<K, V>[] table;
+    int size = 0;
 
     public CustomHashMap() {
         table = new Node[capacity];
@@ -26,16 +25,17 @@ public class CustomHashMap<K, V> {
         if (key == null) {
             hash = 0;
         } else {
-            hash = Math.abs(key.hashCode());
+            hash  = key.hashCode();
         }
-        return hash % capacity;
+        return Math.floorMod(hash, capacity);
     }
 
     public V put(K key, V value) {
         int i = index(key);
         if (table[i] == null) {
-            Node<K, V> node = new Node<>(key, value, null);
-            table[i] = node;
+            Node<K, V> newNode = new Node<>(key, value, null);
+            table[i] = newNode;
+            size++;
             return null;
         } else {
             Node<K, V> current = table[i];
@@ -56,6 +56,7 @@ public class CustomHashMap<K, V> {
             }
             Node<K, V> newNode = new Node<>(key, value, table[i]);
             table[i] = newNode;
+            size++;
             return null;
         }
     }
@@ -97,6 +98,7 @@ public class CustomHashMap<K, V> {
                 } else {
                     prev.next = current.next;
                 }
+                size--;
                 return oldValue;
             } else {
                 prev = current;
@@ -105,5 +107,11 @@ public class CustomHashMap<K, V> {
 
         }
         return null;
+    }
+    public int size() {
+        return size;
+    }
+    public boolean isEmpty() {
+        return size == 0;
     }
 }
