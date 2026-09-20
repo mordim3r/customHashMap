@@ -1,4 +1,3 @@
-
 public class CustomHashMap<K, V> {
     int capacity = 16;
     Node<K, V>[] table;
@@ -25,7 +24,7 @@ public class CustomHashMap<K, V> {
         if (key == null) {
             hash = 0;
         } else {
-            hash  = key.hashCode();
+            hash = key.hashCode();
         }
         return Math.floorMod(hash, capacity);
     }
@@ -90,18 +89,20 @@ public class CustomHashMap<K, V> {
         }
         return null;
     }
+
     public int size() {
         return size;
     }
+
     public boolean isEmpty() {
         return size == 0;
     }
 
-    private boolean keysEqual(K first, K second){
-        if (first==null && second==null){
+    private boolean keysEqual(K first, K second) {
+        if (first == null && second == null) {
             return true;
         }
-        if (first==null || second==null){
+        if (first == null || second == null) {
             return false;
         } else {
             return first.equals(second);
