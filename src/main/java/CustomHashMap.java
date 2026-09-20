@@ -40,13 +40,7 @@ public class CustomHashMap<K, V> {
         } else {
             Node<K, V> current = table[i];
             while (current != null) {
-                boolean sameKey;
-                if (key == null) {
-                    sameKey = (current.key == null);
-                } else {
-                    sameKey = key.equals(current.key);
-                }
-                if (sameKey) {
+                if (keysEqual(key, current.key)) {
                     V oldValue = current.value;
                     current.value = value;
                     return oldValue;
@@ -65,13 +59,7 @@ public class CustomHashMap<K, V> {
         int i = index(key);
         Node<K, V> current = table[i];
         while (current != null) {
-            boolean sameKey;
-            if (key == null) {
-                sameKey = (current.key == null);
-            } else {
-                sameKey = key.equals(current.key);
-            }
-            if (sameKey) {
+            if (keysEqual(key, current.key)) {
                 return current.value;
             } else {
                 current = current.next;
@@ -85,13 +73,7 @@ public class CustomHashMap<K, V> {
         Node<K, V> current = table[i];
         Node<K, V> prev = null;
         while (current != null) {
-            boolean sameKey;
-            if (key == null) {
-                sameKey = (current.key == null);
-            } else {
-                sameKey = key.equals(current.key);
-            }
-            if (sameKey) {
+            if (keysEqual(key, current.key)) {
                 V oldValue = current.value;
                 if (prev == null) {
                     table[i] = current.next;
@@ -113,5 +95,16 @@ public class CustomHashMap<K, V> {
     }
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    private boolean keysEqual(K first, K second){
+        if (first==null && second==null){
+            return true;
+        }
+        if (first==null || second==null){
+            return false;
+        } else {
+            return first.equals(second);
+        }
     }
 }
